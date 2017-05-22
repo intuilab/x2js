@@ -719,7 +719,7 @@
             {
                 var removePrefix = function(obj)
                 {
-                    for(prop in obj)
+                    for(var prop in obj)
                     {
                         if (prop === '__prefix')
                             delete obj[prop];
