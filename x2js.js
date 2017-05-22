@@ -728,7 +728,7 @@
                     }
                 }
                 var result = this.dom2js(domNode);
-                result = removePrefix(result);
+                removePrefix(result);
                 return result;
             }
             else
