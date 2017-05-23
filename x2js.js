@@ -364,24 +364,24 @@
             }
 
             if (result["#text"]) {
-                result.__inner = result["#text"];
+                result._inner = result["#text"];
 
-                if (result.__inner instanceof Array) {
-                    result.__inner = result.__inner.join("\n");
+                if (result._inner instanceof Array) {
+                    result._inner = result._inner.join("\n");
                 }
 
                 if (config.escapeMode)
-                    result.__inner = unescapeXmlChars(result.__inner);
+                    result._inner = unescapeXmlChars(result._inner);
 
                 if (config.stripWhitespaces)
-                    result.__inner = result.__inner.trim();
+                    result._inner = result._inner.trim();
 
                 delete result["#text"];
 
                 if (config.arrayAccessForm === "property")
                     delete result["#text_asArray"];
 
-                result.__inner = convertToDateIfRequired(result.__inner, "#text", elementPath + ".#text");
+                result._inner = convertToDateIfRequired(result._inner, "#text", elementPath + ".#text");
             }
 
             if (result.hasOwnProperty('#cdata-section')) {
@@ -392,24 +392,24 @@
                     delete result["#cdata-section_asArray"];
             }
 
-            if (result.__cnt === 1 && result.__inner) {
-                result = result.__inner;
+            if (result.__cnt === 1 && result._inner) {
+                result = result._inner;
             } else if (result.__cnt === 0 && config.emptyNodeForm === "text") {
                 result = '';
-            } else if (result.__cnt > 1 && result.__inner !== undefined && config.skipEmptyTextNodesForObj) {
-                if (config.stripWhitespaces && result.__inner === "" || result.__inner.trim() === "") {
-                    delete result.__inner;
+            } else if (result.__cnt > 1 && result._inner !== undefined && config.skipEmptyTextNodesForObj) {
+                if (config.stripWhitespaces && result._inner === "" || result._inner.trim() === "") {
+                    delete result._inner;
                 }
             }
             delete result.__cnt;
 
-            if (!config.keepCData && (!result.hasOwnProperty('__inner') && result.hasOwnProperty('__cdata'))) {
+            if (!config.keepCData && (!result.hasOwnProperty('_inner') && result.hasOwnProperty('__cdata'))) {
                 return (result.__cdata ? result.__cdata : '');
             }
 
-            if (config.enableToStringFunc && (result.__inner || result.__cdata)) {
+            if (config.enableToStringFunc && (result._inner || result.__cdata)) {
                 result.toString = function toString() {
-                    return (this.__inner ? this.__inner : '') + (this.__cdata ? this.__cdata : '');
+                    return (this._inner ? this._inner : '') + (this.__cdata ? this.__cdata : '');
                 };
             }
 
@@ -511,11 +511,11 @@
                 result += "<![CDATA[" + textNode.__cdata + "]]>";
             }
 
-            if (textNode.__inner) {
+            if (textNode._inner) {
                 if (config.escapeMode)
-                    result += escapeXmlChars(textNode.__inner);
+                    result += escapeXmlChars(textNode._inner);
                 else
-                    result += textNode.__inner;
+                    result += textNode._inner;
             }
 
             return result;
@@ -564,7 +564,7 @@
                     result += serializeEndTag(element, elementName);
                 } else {
                     var childElementCount = getDataElementCount(element);
-                    if (childElementCount > 0 || element.__inner || element.__cdata) {
+                    if (childElementCount > 0 || element._inner || element.__cdata) {
                         result += serializeStartTag(element, elementName, attributes, false);
                         result += serializeJavaScriptObjectChildren(element);
                         result += serializeEndTag(element, elementName);
